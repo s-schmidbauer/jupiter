@@ -1,13 +1,12 @@
 http protocol "proxy" {
 	return error
-	pass
-	match label "Prohibited!"
 	block url "facebook.com/"
 	block url "youtube.com/"
+	pass
 }
 
-relay proxy {
-	listen on $rly_IPv4 port 3128
+relay httpproxy {
+	listen on $rly_IPv4 port 8000
         protocol "proxy"
-        forward to nat lookup
+        forward to destination
 }
