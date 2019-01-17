@@ -4,7 +4,7 @@
 !hostname.*
 !ssh/sshd_config
 !pf.*
-!rc.conf*
+!rc.conf.local
 !relayd.*
 !white
 !httpd.*
