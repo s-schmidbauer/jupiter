@@ -1,0 +1,58 @@
+
+http protocol web {
+	#return error style "body { background: #a00000; color: white; }"
+
+	block
+
+	# XFF http://tools.ietf.org/html/rfc7239
+	match request header append "X-Forwarded-For" \
+		value "$REMOTE_ADDR"
+	match request header append "X-Forwarded-By" \
+		value "$SERVER_ADDR:$SERVER_PORT"
+
+	# The connection must be closed after relaying it to a back-end server
+	match request header set "Connection" value "close"
+
+	# http://www.geekisp.com/faq/6_65_en.html
+	match request header set "X-Forwarded-Proto" value "https"
+	match request header set "X-Forwarded-Port" value "443"
+
+	# (!) Non-standard
+#	match header set "Keep-Alive" value "$TIMEOUT"
+
+	# Anonimize (opt-in data collection and tracking)
+	match response header set "Server" value "potato"
+	match response header remove "X-Powered-By"
+
+	# Caching config
+	include "/etc/relayd.conf.caching" 
+
+	# Secure headers config
+	include "/etc/relayd.conf.secureheaders" 
+
+	# SNI and OCSP http://marc.info/?l=openbsd-tech&m=148864501114328&w=2
+
+	# vHost/url
+	pass request header "Host" value "*.wurstbot.com"
+	pass request url "*.wurstbot.com/"
+
+	# Various TCP performance options
+	tcp { nodelay, sack, socket buffer 65536, backlog 128 }
+
+	# TLS
+	tls { no client-renegotiation, cipher-server-preference }
+	include "/etc/relayd.conf.tls.HIGHER" # score 100% on ssllabs.com
+}
+
+relay www {
+	# Run as a SSL/TLS accelerator
+	listen on $rly_IPv4 port https tls
+	listen on $rly_IPv4 port http
+
+	# Anchor
+	protocol web 
+
+	# Forward to hosts in the webhosts table using a src/dst hash
+	forward to <webhosts> port 81 mode loadbalance check http "/" code 200
+	forward to <fallback> port 8080 check http "/" code 200
+}

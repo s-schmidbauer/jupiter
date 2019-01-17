@@ -1,0 +1,47 @@
+        # Prevent mobile network providers from modifying your site
+        # (!) https://developers.google.com/speed/pagespeed/module/configuration#notransform
+        match response header append "Cache-Control" value "no-transform"
+
+        # Force the latest IE version https://msdn.microsoft.com/library/cc288325(v=vs.85).aspx#SetMode
+        match response header remove "X-UA-Compatible"
+        match response header set "X-UA-Compatible" value "IE=edge"           tagged "0n"
+
+        # (!) http://www.w3.org/TR/cors/#access-control-allow-origin-response-header
+#       match response header set "Access-Control-Allow-Origin" value "subdomain.freedns.afraid.org"
+
+        # CORS-enabled images (@crossorigin) "tainted" canvas
+        # https://github.com/h5bp/html5-boilerplate/blob/5370479476dceae7cc3ea105946536d6bc0ee468/.htaccess#L50
+#       match response header set "Access-Control-Allow-Origin" value '"*" env=IS_CORS' tagged "1m"
+
+        # Clickjacking protection https://tools.ietf.org/html/rfc7034
+        match response header set "X-Frame-Options" value "sameorigin"
+
+        # Cross-site scripting (XSS) filter https://blogs.msdn.microsoft.com/ie/2008/07/02/ie8-security-part-iv-the-xss-filter/
+        match response header set "X-XSS-Protection" value "1; mode=block"
+
+        # Protect your sites from XSS attacks https://www.w3.org/TR/CSP/
+        # (!) Change Content-Security-Policy-Report-Only to Content-Security-Policy to enforce
+        # Set up report-uri where browsers may POST violation reports
+        match response header set "Content-Security-Policy" value \
+                "default-src 'self'; style-src 'self' https://stackedit.io 'unsafe-inline'; script-src 'self' https://www.google-analytics.com; referrer 'no-referrer'; reflected-xss 'block'; upgrade-insecure-requests; form-actio
+n https:; report-uri /csp/reports"
+
+        # Set to corresponding CSP value https://www.w3.org/TR/referrer-policy/
+        match response header set "Referrer-Policy" value "strict-origin"
+
+        # HSTS Policy: please read https://hstspreload.appspot.com/#removal before sending the header with "preload"
+        match response header set "Strict-Transport-Security" value \
+                "max-age=15778800; includeSubDomains; "
+
+        # HKPK https://tools.ietf.org/html/rfc7469 (!) renew certificate and pin before max-age
+        # Min two SHA256, base64 pins from private keys (certs from separate CA) required, first pin must be valid:
+        # (!) see usr/local/bin/get-pin.sh
+
+        #match response header set "Public-Key-Pins" value \
+                'pin-sha256="0dicFmRlaTjCf1iXcWKwgNeL0onIdErBuUtmNSeHC0A="; pin-sha256="0dicFmRlaTjCf1iXcWKwgNeL0onIdErBuUtmNSeHC0A="; max-age=7200; includeSubDomains'
+
+        # MIME-sniffing http://blogs.msdn.com/b/ie/archive/2008/09/02/ie8-security-part-vi-beta-2-update.aspx
+        match response header set "X-Content-Type-Options" value "nosniff"
+
+        # If an entity is temporarily unavailable
+#       match response header set "Retry-After" value "120"

@@ -1,0 +1,45 @@
+        # ETag https://developer.yahoo.com/performance/rules.html#etags
+        match response header remove "ETag"
+
+        # Caching (!) for path-based cache busting, see etc/httpd.conf
+
+        match response header "Content-Type" value "application/javascript"   tag "1y"
+        match response header "Content-Type" value "application/x-javascript" tag "1y"
+        match response header "Content-Type" value "text/javascript"          tag "1y"
+
+        match response header "Content-Type" value "text/css"                 tag "1m"
+
+        match response header "Content-Type" value "audio/*"                  tag "1m"
+        match response header "Content-Type" value "image/*"                  tag "1m"
+        match response header "Content-Type" value "video/*"                  tag "1m"
+        match response header "Content-Type" value "application/*font*"       tag "1m"
+        match response header "Content-Type" value "font/*"                   tag "1m"
+
+        match response header "Content-Type" value "image/vnd.microsoft.icon" tag "1w"
+        match response header "Content-Type" value "image/x-icon"             tag "1w"
+
+        match response header "Content-Type" value "application/atom+xml"     tag "1h"
+        match response header "Content-Type" value "application/rdf+xml"      tag "1h"
+        match response header "Content-Type" value "application/rss+xml"      tag "1h"
+
+        match response header "Content-Type" value "application/json"         tag "0s"
+        match response header "Content-Type" value "application/ld+json"      tag "0s"
+        match response header "Content-Type" value "application/schema+json"  tag "0s"
+        match response header "Content-Type" value "application/vnd.geo+json" tag "0s"
+        match response header "Content-Type" value "application/xml"          tag "0s"
+        match response header "Content-Type" value "text/xml"                 tag "0s"
+
+        match response header "Content-Type" value "application/manifest+json"           tag "0s"
+        match response header "Content-Type" value "application/x-web-app-manifest+json" tag "0s"
+        match response header "Content-Type" value "text/cache-manifest"                 tag "0s"
+
+        match response header "Content-Type" value "text/html"                tag "0n"
+
+        # Tells all caching mechanisms whether they may cache (in seconds)
+        match response header set "Cache-Control" value "max-age=31536000, private"      tagged "1y"
+        match response header set "Cache-Control" value "max-age=2628000"                tagged "1m"
+        match response header set "Cache-Control" value "max-age=604800"                 tagged "1w"
+        match response header set "Cache-Control" value "max-age=3600"                   tagged "1h"
+        # Cache should be validated before use
+        match response header set "Cache-Control" value "no-cache, no-store, max-age=0"  tagged "0s"
+        match response header set "Cache-Control" value "no-cache, no-store, max-age=0"  tagged "0n"
