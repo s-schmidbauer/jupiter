@@ -1,0 +1,12 @@
+*
+!.gitignore
+!acme-client.conf
+!hostname.*
+!ssh/sshd_config
+!pf.*
+!rc.conf*
+!relayd.*
+!white
+!httpd.*
+!crontab
+!failed_ips.sh
