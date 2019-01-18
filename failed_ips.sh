@@ -14,7 +14,7 @@ if [[ $1 = "/var/log/relayd" ]]
 then
 	echo "relayd log"
 	ips=$(cat $1 \
-	| grep 'Forbidden' \
+	| grep 'Forbidden\|(403' \
 	| grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' \
 	| grep -v -f /etc/white \
 	| sort \
