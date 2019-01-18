@@ -14,7 +14,7 @@ if [[ $1 = "/var/log/relayd" ]]
 then
 	echo "relayd log"
 	ips=$(cat $1 \
-	| grep '(403' \
+	| grep 'Forbidden' \
 	| grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' \
 	| grep -v -f /etc/white \
 	| sort \
@@ -27,10 +27,12 @@ else
 	| sort \
 	| uniq)
 fi	
+	#| grep '(403' \
 
 
 echo "add IPv4s to $2 pf table"
 for ip in $ips ; do doas pfctl -t $2 -T add $ip > /dev/null 2>&1 ; done
+#for ip in $ips ; do echo $ip ; done
 
 echo "dump $2 pf table to file $3"
 doas pfctl -t $2 -T show > $3
