@@ -39,8 +39,9 @@ doas pfctl -t $2 -T show > $3
 echo "copy temp file $3 to persistent file $4"
 doas cp $3 $4
 
-echo "reload pf"
+echo "check pf.conf"
 if doas pfctl -nf /etc/pf.conf; then
+	echo "reload pf"
 	doas pfctl -f /etc/pf.conf
 fi
 
