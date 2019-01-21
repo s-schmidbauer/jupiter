@@ -10,3 +10,4 @@
 !httpd.*
 !crontab
 !failed_ips.sh
+!installed_files.sh
