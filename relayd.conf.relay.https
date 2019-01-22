@@ -21,7 +21,7 @@ http protocol web {
 #	match header set "Keep-Alive" value "$TIMEOUT"
 
 	# Anonimize (opt-in data collection and tracking)
-	match response header set "Server" value ""
+	match response header remove "Server"
 	match response header remove "X-Powered-By"
 
 	# Caching config
