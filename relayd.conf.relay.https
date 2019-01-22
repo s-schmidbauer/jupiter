@@ -21,7 +21,7 @@ http protocol web {
 #	match header set "Keep-Alive" value "$TIMEOUT"
 
 	# Anonimize (opt-in data collection and tracking)
-	match response header set "Server" value "potato"
+	match response header set "Server" value ""
 	match response header remove "X-Powered-By"
 
 	# Caching config
@@ -31,6 +31,9 @@ http protocol web {
 	include "/etc/relayd.conf.secureheaders" 
 
 	# SNI and OCSP http://marc.info/?l=openbsd-tech&m=148864501114328&w=2
+
+	# Block certain HTTP methods
+	block request method OPTIONS
 
 	# vHost/url
 	pass request header "Host" value "*.wurstbot.com"
