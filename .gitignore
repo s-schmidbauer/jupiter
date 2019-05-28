@@ -1,6 +1,7 @@
 *
 !.gitignore
 !acme-client.conf
+!dnscrypt-proxy.toml
 !hostname.*
 !ssh/sshd_config
 !pf.*

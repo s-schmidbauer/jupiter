@@ -1,3 +1,5 @@
+dnscrypt_proxy_flags=" -config /etc/dnscrypt-proxy.toml"
 httpd_flags=
+pkg_scripts=dnscrypt_proxy
 relayd_flags=
 unbound_flags=
