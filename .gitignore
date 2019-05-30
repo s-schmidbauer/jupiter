@@ -12,3 +12,6 @@
 !crontab
 !failed_ips.sh
 !installed_files.sh
+!adblocks.conf
+!unbound.conf
+!root.hints
