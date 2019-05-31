@@ -15,3 +15,4 @@
 !adblocks.conf
 !unbound.conf
 !root.hints
+!place_adhosts.sh
