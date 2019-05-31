@@ -16,3 +16,4 @@
 !unbound.conf
 !root.hints
 !place_adhosts.sh
+!newsyslog.conf
