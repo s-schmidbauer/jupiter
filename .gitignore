@@ -17,3 +17,4 @@
 !root.hints
 !place_adhosts.sh
 !newsyslog.conf
+!dhcpd.conf
