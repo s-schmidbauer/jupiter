@@ -18,3 +18,4 @@
 !place_adhosts.sh
 !newsyslog.conf
 !dhcpd.conf
+!convert_blocklist.sh
