@@ -1,0 +1,44 @@
+cp -r /usr/local/share/easy-rsa/* /etc/ssl
+cd /etc/ssl
+
+#copy vars from example and set minium required values
+cp vars.example vars
+vi vars
+set_var EASYRSA_ALGO	        ec
+set_var EASYRSA_CURVE           secp384r1
+set_var EASYRSA_DN              "org"
+set_var EASYRSA_REQ_COUNTRY     "NL"
+set_var EASYRSA_REQ_PROVINCE    "NL"
+set_var EASYRSA_REQ_CITY        "Haarlem"
+set_var EASYRSA_REQ_ORG         "wurstbot"
+set_var EASYRSA_REQ_EMAIL       "root@wurstbot.com"
+
+
+#creates pki folder
+doas ./easyrsa init-pki
+#init-pki complete; you may now create a CA or requests.
+#Your newly created PKI dir is: /etc/ssl/pki
+
+doas ./easyrsa build-ca
+#Your new CA certificate file for publishing is at:
+#/etc/ssl/pki/ca.crt
+
+#create client cert with password for ss
+doas ./easyrsa build-client-full ss
+#doas ./easyrsa build-client-full as nopass
+#writing new private key to '/etc/ssl/pki/private/ss.key.TksBCBiExD'
+#Enter PEM pass phrase:
+#Verifying - Enter PEM pass phrase:
+-----
+#Using configuration from /etc/ssl/pki/safessl-easyrsa.cnf
+#Enter pass phrase for /etc/ssl/pki/private/ca.key:
+
+doas ./easyrsa gen-crl
+#CRL file: /etc/ssl/pki/crl.pem
+
+doas ./easyrsa export-p12 ss
+#Enter pass phrase for /etc/ssl/pki/private/ss.key:
+#Enter Export Password:
+#Verifying - Enter Export Password:
+#Successful export of p12 file. Your exported file is at the following
+#location: /etc/ssl/pki/private/ss.p12

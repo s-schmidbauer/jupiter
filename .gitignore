@@ -19,3 +19,5 @@
 !newsyslog.conf
 !dhcpd.conf
 !convert_blocklist.sh
+!easyrsa.txt
+!easyrsa.vars
