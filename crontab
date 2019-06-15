@@ -19,5 +19,8 @@ HOME=/var/log
 @hourly /etc/failed_ips.sh /var/log/authlog mofos pf.mofos /etc/pf.mofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
 @hourly /etc/failed_ips.sh /var/log/relayd webmofos pf.webmofos /etc/pf.webmofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
 @daily	acme-client -vD www.wurstbot.com
+@daily	acme-client -vD earth.wurstbot.com
+@daily	acme-client -vD dns.wurstbot.com
+@weekly /usr/local/bin/adblocks.sh > /var/unbound/etc/adblocks.conf ; unbound-checkconf && rcctl reload unbound
 @weekly syspatch
 @weekly fw_update
