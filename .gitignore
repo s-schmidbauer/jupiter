@@ -13,11 +13,11 @@
 !failed_ips.sh
 !installed_files.sh
 !adblocks.conf
+!adblocks.sh
 !unbound.conf
-!root.hints
-!place_adhosts.sh
 !newsyslog.conf
 !dhcpd.conf
-!convert_blocklist.sh
+!sshd_config
+!unbound.conf
 !easyrsa.txt
 !easyrsa.vars
