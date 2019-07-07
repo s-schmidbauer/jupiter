@@ -3,7 +3,7 @@
 !acme-client.conf
 !dnscrypt-proxy.toml
 !hostname.*
-!ssh/sshd_config
+!sshd_config
 !pf.*
 !rc.conf.local
 !relayd.*
@@ -21,3 +21,5 @@
 !unbound.conf
 !easyrsa.txt
 !easyrsa.vars
+!httpd.tls.dns.conf
+!httpd.tls.git.conf
