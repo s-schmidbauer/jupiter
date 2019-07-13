@@ -21,5 +21,9 @@
 !unbound.conf
 !easyrsa.txt
 !easyrsa.vars
+!httpd.tls.www.conf
+!httpd.tls.earth.conf
 !httpd.tls.dns.conf
 !httpd.tls.git.conf
+!httpd.tls.cloud.conf
+!httpd.nextcloud.conf
