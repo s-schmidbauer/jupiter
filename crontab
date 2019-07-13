@@ -16,11 +16,22 @@ HOME=/var/log
 30	5	1	*	*	/bin/sh /etc/monthly
 #0	*	*	*	*	sleep $((RANDOM \% 2048)) && /usr/libexec/spamd-setup
 #
+*/15    *   *   *   *   /usr/bin/ftp -Vo - https://cloud.wurstbot.com/cron.php >/dev/null
+
 @hourly /etc/failed_ips.sh /var/log/authlog mofos pf.mofos /etc/pf.mofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
 @hourly /etc/failed_ips.sh /var/log/relayd webmofos pf.webmofos /etc/pf.webmofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
-@daily	acme-client -vD www.wurstbot.com
-@daily	acme-client -vD earth.wurstbot.com
-@daily	acme-client -vD dns.wurstbot.com
+@daily	acme-client -vD www.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily	acme-client -vD earth.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily	acme-client -vD dns.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily	acme-client -vD git.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily	acme-client -vD cloud.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
+
+@daily ocspcheck -N -o /etc/ssl/www.wurstbot.com.der /etc/ssl/www.wurstbot.com.fullchain.pem && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily ocspcheck -N -o /etc/ssl/earth.wurstbot.com.der /etc/ssl/earth.wurstbot.com.fullchain.pem && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily ocspcheck -N -o /etc/ssl/dns.wurstbot.com.der /etc/ssl/dns.wurstbot.com.fullchain.pem && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily ocspcheck -N -o /etc/ssl/git.wurstbot.com.der /etc/ssl/git.wurstbot.com.fullchain.pem && httpd -nf /etc/httpd.conf && rcctl reload httpd
+@daily ocspcheck -N -o /etc/ssl/cloud.wurstbot.com.der /etc/ssl/cloud.wurstbot.com.fullchain.pem && httpd -nf /etc/httpd.conf && rcctl reload httpd
+
 @weekly /usr/local/bin/adblocks.sh > /var/unbound/etc/adblocks.conf ; unbound-checkconf && rcctl reload unbound
 @weekly syspatch
 @weekly fw_update
