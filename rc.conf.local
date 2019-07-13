@@ -1,7 +1,7 @@
 dhcpd_flags="urtwn0"
 dnscrypt_proxy_flags=" -config /etc/dnscrypt-proxy.toml"
 httpd_flags=
-pkg_scripts=dnscrypt_proxy
+pkg_scripts=dnscrypt_proxy postgresql php72_fpm redis
 relayd_flags=
 slowcgi_flags=
 unbound_flags=
