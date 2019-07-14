@@ -16,10 +16,15 @@ HOME=/var/log
 30	5	1	*	*	/bin/sh /etc/monthly
 #0	*	*	*	*	sleep $((RANDOM \% 2048)) && /usr/libexec/spamd-setup
 #
+
 */15    *   *   *   *   /usr/bin/ftp -Vo - https://cloud.wurstbot.com/cron.php >/dev/null
 
 @hourly /etc/failed_ips.sh /var/log/authlog mofos pf.mofos /etc/pf.mofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
 @hourly /etc/failed_ips.sh /var/log/relayd webmofos pf.webmofos /etc/pf.webmofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
+
+#using /root/.pgpass with connection string
+@daily pg_dump -Fc -U nextcloud nextcloud > /home/admin/nextcloud-backup-$(date +"%d-%m-%Y").gz
+
 @daily	acme-client -vD www.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
 @daily	acme-client -vD earth.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
 @daily	acme-client -vD dns.wurstbot.com && httpd -nf /etc/httpd.conf && rcctl reload httpd
