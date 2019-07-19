@@ -20,9 +20,23 @@ then
 	| grep -v -f /etc/white \
 	| sort \
 	| uniq)
-else
+fi
+
+if [[ $1 = "/var/log/authlog" ]]
+then
 	echo "authlog"
 	ips=$(cat $1 \
+	| grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' \
+	| grep -v -f /etc/white \
+	| sort \
+	| uniq)
+fi	
+
+if [[ $1 = "/var/www/logs/access.log" ]]
+then
+	echo "access.log"
+	ips=$(cat $1 \
+	| grep " 404" \
 	| grep -o -E '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' \
 	| grep -v -f /etc/white \
 	| sort \
