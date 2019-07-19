@@ -20,7 +20,8 @@ HOME=/var/log
 */15    *   *   *   *   /usr/bin/ftp -Vo - https://cloud.wurstbot.com/cron.php >/dev/null
 
 @hourly /etc/failed_ips.sh /var/log/authlog mofos pf.mofos /etc/pf.mofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
-@hourly /etc/failed_ips.sh /var/log/relayd webmofos pf.webmofos /etc/pf.webmofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
+@hourly /etc/failed_ips.sh /var/www/logs/access.log webmofos pf.webmofos /etc/pf.webmofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
+#@hourly /etc/failed_ips.sh /var/log/relayd webmofos pf.webmofos /etc/pf.webmofos ; pfctl -nf /etc/pf.conf ; pfctl -f /etc/pf.conf
 
 #using /root/.pgpass with connection string
 @daily pg_dump -Fc -U nextcloud nextcloud > /home/admin/nextcloud-backup-$(date +"%d-%m-%Y").gz
